@@ -1,0 +1,106 @@
+.news-container {
+    background-color: #f9f9f9; /* Light grey background for better contrast */
+    max-width: 90%;
+    margin: auto; /* Centers the container */
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    font-family: 'Arial', sans-serif;
+}
+
+.ticket-selector {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+.ticket-selector label {
+    margin-right: 0.5rem;
+}
+
+.ticket-selector select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+}
+
+.date-picker-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.date-picker-container h4 {
+    margin-right: 0.5rem;
+}
+
+.react-datepicker-wrapper {
+    width: auto;
+}
+
+.react-datepicker__input-container input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    width: 150px; /* Fixed width for date inputs */
+}
+
+/* Style for the news items below the picker and selector */
+.news-item {
+    background-color: #fff;
+    border: 1px solid #eee;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 600px; /* Fixed max width for news items */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.news-logo {
+    width: 100px; /* Adjust logo size as needed */
+    margin-bottom: 1rem;
+}
+
+.news-title {
+    color: #0077cc; /* A shade of blue for the title */
+    margin-bottom: 0.5rem;
+}
+
+.news-author, .news-published, .news-description {
+    color: #666; /* Dark grey for text */
+    margin-bottom: 0.25rem;
+}
+
+.news-read-more {
+    color: #0077cc;
+    text-decoration: none;
+    margin-top: 1rem;
+    align-self: flex-end;
+}
+
+/* Add styles to ensure consistent width if needed */
+select, .react-datepicker-wrapper {
+    width: 200px; /* Adjust the width as needed */
+}
+
+.loading-message,
+.no-news-message {
+    color: #333; /* Visible text color */
+    text-align: center;
+    padding: 20px;
+}

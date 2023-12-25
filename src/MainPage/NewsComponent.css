@@ -1,20 +1,26 @@
+/* Base styles */
 .news-container {
-    background-color: #f9f9f9;
-    max-width: 90%;
+    max-width: 100%;
     margin: auto;
+    padding: 2rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
     font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9; /* Light grey background for better contrast */
+}
+
+.ticket-selector,
+.date-picker-container,
+.pagination {
+    text-align: center;
+    color: #333;
 }
 
 .ticket-selector {
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
-    font-family: 'Arial', sans-serif;
-    color: #333;
 }
 
 .ticket-selector label {
@@ -28,13 +34,14 @@
     font-size: 1rem;
     color: #333;
     background-color: #fff;
+    width: 100%;
+    max-width: 300px; /* Maximum width suitable for mobile devices */
 }
 
 .date-picker-container {
     display: flex;
     gap: 1rem;
     margin-bottom: 1rem;
-    color: #333;
 }
 
 .date-picker-container h4 {
@@ -55,7 +62,7 @@
     width: 150px; /* Fixed width for date inputs */
 }
 
-/* Style for the news items below the picker and selector */
+/* Style for the news items */
 .news-item {
     background-color: #fff;
     border: 1px solid #eee;
@@ -63,26 +70,32 @@
     border-radius: 0.5rem;
     margin-top: 1rem;
     width: 100%;
-    max-width: 600px; /* Fixed max width for news items */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
 .news-logo {
-    width: 100px; /* Adjust logo size as needed */
+    width: 100px;
     margin-bottom: 1rem;
 }
 
 .news-title {
-    color: #0077cc; /* A shade of blue for the title */
+    color: #0077cc;
     margin-bottom: 0.5rem;
+    text-align: left;
 }
 
-.news-author, .news-published, .news-description {
-    color: #666; /* Dark grey for text */
+.news-author,
+.news-published,
+.news-description {
+    color: #666;
     margin-bottom: 0.25rem;
+    padding-left: 0;
+    text-align: left;
+    margin-left: 0;
 }
 
 .news-read-more {
@@ -92,24 +105,7 @@
     align-self: flex-end;
 }
 
-/* Add styles to ensure consistent width if needed */
-select, .react-datepicker-wrapper {
-    width: 200px; /* Adjust the width as needed */
-}
-
-.loading-message,
-.no-news-message {
-    color: #333; /* Visible text color */
-    text-align: center;
-    padding: 20px;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-}
-
+/* Pagination styles */
 .pagination button {
     padding: 8px 16px;
     margin: 0 4px;
@@ -125,4 +121,57 @@ select, .react-datepicker-wrapper {
 
 .pagination button:hover {
     background-color: #f0f0f0;
+}
+
+/* Adjust padding and margins for smaller screens */
+@media (max-width: 600px) {
+    .news-item {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .news-logo {
+        width: 80%;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .news-content {
+        margin-top: 10px;
+    }
+
+    .news-read-more {
+        display: inline-block;
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .react-datepicker__input-container input,
+    .ticket-selector select {
+        width: 100%; /* Full width on mobile */
+    }
+}
+
+/* General styles for title and text */
+.news-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.news-author,
+.news-published,
+.news-description {
+    font-size: 1rem;
+}
+
+/* No news and loading message styles */
+.loading-message,
+.no-news-message {
+    color: #333;
+    text-align: center;
+    padding: 20px;
 }

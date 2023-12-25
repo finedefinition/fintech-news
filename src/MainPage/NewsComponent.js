@@ -14,7 +14,7 @@ const NewsComponent = () => {
         'PFE', 'DIS', 'VZ'
     ]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10); // You can set this to any number you want for items per page
+    const [itemsPerPage] = useState(5); // You can set this to any number you want for items per page
 
     // Derived state for pagination
     const indexOfLastItem = currentPage * itemsPerPage;

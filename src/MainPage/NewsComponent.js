@@ -13,6 +13,17 @@ const NewsComponent = () => {
         'V', 'JNJ', 'WMT', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'BAC',
         'PFE', 'DIS', 'VZ'
     ]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(10); // You can set this to any number you want for items per page
+
+    // Derived state for pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem);
+
+    // Function to change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,6 +47,10 @@ const NewsComponent = () => {
         setSelectedTicket(event.target.value);
     };
 
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(newsData.length / itemsPerPage); i++) {
+        pageNumbers.push(i);
+    }
 
     return (
         <div className="news-container">
@@ -49,7 +64,7 @@ const NewsComponent = () => {
                 </select>
             </div>
             <div className="date-picker-container">
-                <label htmlFor="ticket-select">Pick up the date:</label>
+                <label htmlFor="start-date-picker">Pick up the date:</label>
                 <DatePicker
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
@@ -68,28 +83,38 @@ const NewsComponent = () => {
                     dateFormat="MM/dd/yyyy"
                 />
             </div>
-            {newsData.map((news) => (
-                <div key={news.id} className="news-item">
-                    <img src={news.publisher.logo_url} alt={news.publisher.name} className="news-logo" />
-                    <div className="news-content">
-                        <h3 className="news-title">{news.title}</h3>
-                        <p className="news-author">
-                            <strong>Author:</strong> {news.author}
-                        </p>
-                        <p className="news-published">
-                            <strong>Published UTC:</strong> {new Date(news.published_utc).toLocaleString()}
-                        </p>
-                        <p className="news-description">
-                            {news.description}
-                        </p>
+            <div className="news-items">
+                {currentItems.map((news) => (
+                    <div key={news.id} className="news-item">
+                        <img src={news.publisher.logo_url} alt={news.publisher.name} className="news-logo"/>
+                        <div className="news-content">
+                            <h3 className="news-title">{news.title}</h3>
+                            <p className="news-author">
+                                <strong>Author:</strong> {news.author}
+                            </p>
+                            <p className="news-published">
+                                <strong>Published UTC:</strong> {new Date(news.published_utc).toLocaleString()}
+                            </p>
+                            <p className="news-description">
+                                {news.description}
+                            </p>
+                        </div>
+                        <a href={news.article_url} className="news-read-more" target="_blank" rel="noopener noreferrer">
+                            Read More
+                        </a>
                     </div>
-                    <a href={news.article_url} className="news-read-more" target="_blank" rel="noopener noreferrer">
-                        Read More
-                    </a>
-                </div>
-            ))}
+                ))}
+            </div>
+            <div className="pagination">
+                {pageNumbers.map(number => (
+                    <button key={number} onClick={() => paginate(number)}
+                            className={currentPage === number ? 'active' : ''}>
+                        {number}
+                    </button>
+                ))}
+            </div>
         </div>
     );
-};
+}
 
 export default NewsComponent;

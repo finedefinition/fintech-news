@@ -1,8 +1,7 @@
 .news-container {
-    background-color: #f9f9f9; /* Light grey background for better contrast */
+    background-color: #f9f9f9;
     max-width: 90%;
-    margin: auto; /* Centers the container */
-    padding: 20px;
+    margin: auto;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -103,4 +102,27 @@ select, .react-datepicker-wrapper {
     color: #333; /* Visible text color */
     text-align: center;
     padding: 20px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    background: none;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination button:hover {
+    background-color: #f0f0f0;
 }

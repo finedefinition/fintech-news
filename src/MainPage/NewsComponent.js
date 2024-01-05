@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // Import the CSS for the date-picker component
 import './NewsComponent.css';
@@ -7,6 +7,7 @@ const NewsComponent = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [selectedTicket, setSelectedTicket] = useState('');
+    const [newsData, setNewsData] = useState([]);
     const [localNewsData, setLocalNewsData] = useState([]);
     const [ticketsList, setTicketsList] = useState([
         'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB', 'TSLA', 'BRK.A', 'JPM',
@@ -15,27 +16,40 @@ const NewsComponent = () => {
     ]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            if (selectedTicket) {
-                try {
-                    const localUrl = `http://localhost:8080/news?ticker=${selectedTicket}&firstDate=${startDate.toISOString()}&lastDate=${endDate.toISOString()}`;
-                    const response = await fetch(localUrl);
-                    const data = await response.json();
-                    setLocalNewsData(data || []);
-                } catch (error) {
-                    console.error('Error fetching local news data:', error);
-                }
-            }
+        if (!selectedTicket || !startDate || !endDate) {
+            return 0; // If no ticker or dates are selected, return 0
+        }
+        // Function to fetch local news
+        const fetchLocalNews = async () => {
+            const localUrl = `https://fintech-news-backend-production.up.railway.app/news?ticker=${selectedTicket}&firstDate=${startDate.toISOString()}&lastDate=${endDate.toISOString()}`;
+            const response = await fetch(localUrl);
+            const localData = await response.json();
+            setLocalNewsData(localData || []);
+            return localData.length; // Return the count of local news items
         };
 
-        fetchData();
+        // Function to fetch Polygon news
+        const fetchPolygonNews = async (newsCount) => {
+            const polygonUrl = `https://api.polygon.io/v2/reference/news?limit=${newsCount}&ticker=${selectedTicket}&apiKey=KPcpXIk3tqCf5HBomDdRTQR2WTTFUDXy&published_utc.gt=${startDate.toISOString()}&published_utc.lt=${endDate.toISOString()}`;
+            const response = await fetch(polygonUrl);
+            const polygonData = await response.json();
+            setNewsData(polygonData.results || []);
+        };
+
+        if (selectedTicket) {
+            try {
+                fetchLocalNews().then(newsCount => {
+                    fetchPolygonNews(newsCount); // Use the count to set the limit for Polygon news
+                });
+            } catch (error) {
+                console.error('Error fetching news data:', error);
+            }
+        }
     }, [startDate, endDate, selectedTicket]);
 
     const handleTicketChange = (event) => {
         setSelectedTicket(event.target.value);
     };
-
-    console.log('Local News Data:', localNewsData);
 
     return (
         <div className="news-container">
@@ -70,6 +84,7 @@ const NewsComponent = () => {
                     />
                 </div>
             </div>
+            <div className="news-content-container">
             <div className="news-items">
                 <h2>Title search</h2>
                 {localNewsData.length > 0 ? (
@@ -88,17 +103,44 @@ const NewsComponent = () => {
                                     {news.description}
                                 </p>
                             </div>
-                            <a href={news.article_url} className="news-read-more" target="_blank" rel="noopener noreferrer">
+                            <a href={news.article_url} className="news-read-more" target="_blank"
+                               rel="noopener noreferrer">
                                 Read More
                             </a>
                         </div>
                     ))
                 ) : (
-                    <p className="no-news-message">No local news to display.</p>
+                    <p className="no-news-message">No title search news to display.</p>
                 )}
             </div>
+                <div className="news-items">
+                    <h2>Article search</h2>
+                    {newsData.map((news, index) => (
+                        <div key={`local-${index}`} className="news-item">
+                            <img src={news.publisher.logo_url} alt={news.publisher.name} className="news-logo"/>
+                            <div className="news-content">
+                                <h3 className="news-title">{news.title}</h3>
+                                <p className="news-author">
+                                    <strong>Author:</strong> {news.author}
+                                </p>
+                                <p className="news-published">
+                                    <strong>Published UTC:</strong> {new Date(news.published_utc).toLocaleString()}
+                                </p>
+                                <p className="news-description">
+                                    {news.description}
+                                </p>
+                            </div>
+                            <a href={news.article_url} className="news-read-more" target="_blank"
+                               rel="noopener noreferrer">
+                                Read More
+                            </a>
+                        </div>
+                    ))}
+                </div>
         </div>
-    );
+</div>
+)
+    ;
 };
 
 export default NewsComponent;

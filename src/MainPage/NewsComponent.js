@@ -10,8 +10,8 @@ const NewsComponent = () => {
     const [newsData, setNewsData] = useState([]);
     const [localNewsData, setLocalNewsData] = useState([]);
     const [ticketsList, setTicketsList] = useState([
-        'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB', 'TSLA', 'BRK.A', 'JPM',
-        'V', 'JNJ', 'WMT', 'PG', 'UNH', 'MA', 'NVDA', 'HD', 'BAC',
+        'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'FB', 'TSLA', 'JPM',
+        'V', 'JNJ', 'WMT', 'PG', 'UNH', 'HD', 'BAC',
         'PFE', 'DIS', 'VZ'
     ]);
 

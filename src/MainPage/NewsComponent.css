@@ -10,6 +10,23 @@
     background-color: #f9f9f9; /* Light grey background for better contrast */
 }
 
+.news-content-container {
+    display: flex;
+    justify-content: space-around; /* This will space out the two news sections */
+}
+
+.news-items {
+    flex: 1; /* This will allow both sections to take up equal space */
+    margin: 10px; /* Adjust as necessary */
+}
+
+/* If you want a max-width or to wrap the items on smaller screens */
+@media (max-width: 768px) {
+    .news-content-container {
+        flex-direction: column;
+    }
+}
+
 .ticket-selector,
 .date-picker-container,
 .pagination {
@@ -63,6 +80,10 @@
 }
 
 /* Style for the news items */
+.news-items {
+    color: #333;
+}
+
 .news-item {
     background-color: #fff;
     border: 1px solid #eee;

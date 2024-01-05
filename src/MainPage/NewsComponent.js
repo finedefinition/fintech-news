@@ -16,35 +16,28 @@ const NewsComponent = () => {
     ]);
 
     useEffect(() => {
-        if (!selectedTicket || !startDate || !endDate) {
-            return 0; // If no ticker or dates are selected, return 0
-        }
-        // Function to fetch local news
-        const fetchLocalNews = async () => {
-            const localUrl = `https://fintech-news-backend-production.up.railway.app/news?ticker=${selectedTicket}&firstDate=${startDate.toISOString()}&lastDate=${endDate.toISOString()}`;
-            const response = await fetch(localUrl);
-            const localData = await response.json();
-            setLocalNewsData(localData || []);
-            return localData.length; // Return the count of local news items
-        };
-
-        // Function to fetch Polygon news
-        const fetchPolygonNews = async (newsCount) => {
-            const polygonUrl = `https://api.polygon.io/v2/reference/news?limit=${newsCount}&ticker=${selectedTicket}&apiKey=KPcpXIk3tqCf5HBomDdRTQR2WTTFUDXy&published_utc.gt=${startDate.toISOString()}&published_utc.lt=${endDate.toISOString()}`;
-            const response = await fetch(polygonUrl);
-            const polygonData = await response.json();
-            setNewsData(polygonData.results || []);
-        };
-
-        if (selectedTicket) {
+        const fetchData = async () => {
+            if (!selectedTicket || !startDate || !endDate) {
+                // If no ticker or dates are selected, don't do anything.
+                return;
+            }
             try {
-                fetchLocalNews().then(newsCount => {
-                    fetchPolygonNews(newsCount); // Use the count to set the limit for Polygon news
-                });
+                // Fetch local news first to determine the count
+                const localResponse = await fetch(`https://fintech-news-backend-production.up.railway.app/news?ticker=${selectedTicket}&firstDate=${startDate.toISOString()}&lastDate=${endDate.toISOString()}`);
+                const localData = await localResponse.json();
+                setLocalNewsData(localData || []);
+                const newsCount = localData.length;
+
+                // Then fetch Polygon news with the count
+                const polygonResponse = await fetch(`https://api.polygon.io/v2/reference/news?limit=${newsCount}&ticker=${selectedTicket}&apiKey=KPcpXIk3tqCf5HBomDdRTQR2WTTFUDXy&published_utc.gt=${startDate.toISOString()}&published_utc.lt=${endDate.toISOString()}`);
+                const polygonData = await polygonResponse.json();
+                setNewsData(polygonData.results || []);
             } catch (error) {
                 console.error('Error fetching news data:', error);
             }
-        }
+        };
+
+        fetchData();
     }, [startDate, endDate, selectedTicket]);
 
     const handleTicketChange = (event) => {

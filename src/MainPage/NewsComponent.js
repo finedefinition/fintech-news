@@ -23,7 +23,7 @@ const NewsComponent = () => {
             }
             try {
                 // Fetch local news first to determine the count
-                const localResponse = await fetch(`https://fintech-news-backend-production.up.railway.app/news?ticker=${selectedTicket}&firstDate=${startDate.toISOString()}&lastDate=${endDate.toISOString()}`);
+                const localResponse = await fetch(`http://chartscroll.eu-central-1.elasticbeanstalk.com/news?ticker=${selectedTicket}&firstDate=${startDate.toISOString()}&lastDate=${endDate.toISOString()}`);
                 const localData = await localResponse.json();
                 setLocalNewsData(localData || []);
                 const newsCount = localData.length;
